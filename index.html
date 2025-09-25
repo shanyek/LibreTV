@@ -407,39 +407,42 @@
     }
     </script>
 
-    <!-- 引入纯 JS sha256（HTTP 下依然可用） -->
-    <script src="libs/sha256.min.js"></script>
-    <script>
-        // 保存原始 js‑sha256 实现，避免被 password.js 覆盖
-        window._jsSha256 = window.sha256;
+<!-- 依赖：js sha256（HTTP 下依然可用） -->
+<script src="libs/sha256.min.js"></script>
+<script>
+  // 保留你的兼容处理
+  window._jsSha256 = window.sha256;
+</script>
+
+<!-- 1) 官方配置（提供 window.API_SITES / window.extendAPISites） -->
+<script src="js/config.js"></script>
+
+<!-- 2) 你的播放源扩展（把 API 全部注入 API_SITES） -->
+<script src="js/config.extra.js"></script>
+
+<!-- 3) 其余功能脚本（此时已能读取到合并后的 API_SITES） -->
+<script src="js/proxy-auth.js"></script>
+<script src="js/customer_site.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/api.js"></script>
+<script src="js/douban.js"></script>
+<script src="js/password.js"></script>
+<script src="js/search.js"></script>
+<script src="js/app.js"></script>
+
+<!-- PWA 注册 -->
+<script src="js/pwa-register.js"></script>
+
+<!-- 环境变量注入（只保留一份） -->
+<script>
+  window.__ENV__ = window.__ENV__ || {};
+  window.__ENV__.PASSWORD = "{{PASSWORD}}";
+</script>
+
+<!-- 版本检测 + 添加弹窗和URL搜索参数处理脚本 -->
+<script src="js/version-check.js"></script>
+<script src="js/index-page.js"></script>
     </script>
-    <script src="js/config.js"></script>
-    <script src="js/proxy-auth.js"></script>
-    <script src="js/customer_site.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/douban.js"></script>
-    <script src="js/password.js"></script>
-    <script src="js/search.js"></script>
-    <script src="js/app.js"></script>
-
-    <!-- PWA 注册 -->
-    <script src="js/pwa-register.js"></script>
-
-    <!-- 环境变量注入脚本 -->
-    <script>
-        // 创建全局环境变量对象
-        window.__ENV__ = window.__ENV__ || {};
-        
-        // 注入服务器端环境变量 (将由服务器端替换)
-        // PASSWORD 变量将在这里被服务器端注入
-        window.__ENV__.PASSWORD = "{{PASSWORD}}";
-    </script>
-
-    <!-- 版本检测脚本 -->
-    <script src="js/version-check.js"></script>
-
-    <!-- 添加弹窗和URL搜索参数处理脚本 -->
-    <script src="js/index-page.js"></script>
+    
 </body>
 </html>
